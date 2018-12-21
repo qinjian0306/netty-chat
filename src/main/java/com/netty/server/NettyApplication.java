@@ -22,6 +22,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * https://www.jianshu.com/p/7373cb0f2d7chttps://www.jianshu.com/p/7373cb0f2d7c
+ *
+ * @author QJ
+ * @date 2018/12/21
+ *
+ */
 @PropertySource(value= "classpath:/nettyserver.properties")
 @SpringBootApplication
 public class NettyApplication {
