@@ -31,12 +31,12 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
     protected void channelRead0(ChannelHandlerContext ctx,
                                 TextWebSocketFrame msg) throws Exception {
         Channel incoming = ctx.channel();
-        String uName = redisDao.getString(incoming.id()+"");
+        String uName = redisDao.getString(incoming.id() + "");
         for (Channel channel : channels) {
-            if (channel != incoming){
+            if (channel != incoming) {
                 channel.writeAndFlush(new TextWebSocketFrame("[" + uName + "]" + msg.text()));
             } else {
-                channel.writeAndFlush(new TextWebSocketFrame("[you]" + msg.text() ));
+                channel.writeAndFlush(new TextWebSocketFrame("[you]" + msg.text()));
             }
         }
     }
@@ -46,12 +46,14 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
         System.out.println(ctx.channel().remoteAddress());
         String uName = new RandomName().getRandomName();
 
+        channels.add(ctx.channel());
+
         Channel incoming = ctx.channel();
         for (Channel channel : channels) {
             channel.writeAndFlush(new TextWebSocketFrame("[新用户] - " + uName + " 加入"));
+            System.out.println("[新用户] - " + uName + " 加入");
         }
-        redisDao.saveString(incoming.id()+"",uName);
-        channels.add(ctx.channel());
+        redisDao.saveString(incoming.id() + "", uName);
     }
 
     @Override
@@ -71,21 +73,21 @@ public class TextWebSocketFrameHandler extends SimpleChannelInboundHandler<TextW
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         Channel incoming = ctx.channel();
-        System.out.println("用户:"+redisDao.getString(incoming.id()+"")+"在线");
+        System.out.println("用户:" + redisDao.getString(incoming.id() + "") + "在线");
     }
 
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         Channel incoming = ctx.channel();
-        System.out.println("用户:"+redisDao.getString(incoming.id()+"")+"掉线");
+        System.out.println("用户:" + redisDao.getString(incoming.id() + "") + "掉线");
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
             throws Exception {
         Channel incoming = ctx.channel();
-        System.out.println("用户:"+redisDao.getString(incoming.id()+"")+"异常");
+        System.out.println("用户:" + redisDao.getString(incoming.id() + "") + "异常");
         cause.printStackTrace();
         ctx.close();
     }

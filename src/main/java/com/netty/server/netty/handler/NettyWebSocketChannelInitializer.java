@@ -28,7 +28,7 @@ public class NettyWebSocketChannelInitializer extends ChannelInitializer<SocketC
         pipeline.addLast(new HttpServerCodec());
         pipeline.addLast(new HttpObjectAggregator(64*1024));
         pipeline.addLast(new ChunkedWriteHandler());
-        pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
+        pipeline.addLast(new WebSocketServerProtocolHandler("/spotws"));
         pipeline.addLast(textWebSocketFrameHandler);
 
     }
